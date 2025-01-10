@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <%- include('../partials/head', {title: 'Book ' + book.title + ' | Book Manager'}); %>
+</head>
+<body>
+<div class="container">
+    <div class="px-4 py-5 text-center">
+        <h1 class="display-5 fw-bold">DÉTAILS DU LIVRE</h1>
+    </div>
+    <div class="row col-8 mx-auto my-5">
+        <div class="card shadow p-4 bg-light">
+            <div class="card-header text-center bg-light py-3">
+                <h2 class="card-title mb-0"><strong><%= book.title %></strong></h2>
+            </div>
+            <div class="card-body">
+
+
+
+                <% if (book.imageUrl) { %>
+                    <div class="mb-4 text-center">
+                        <img src="<%= book.imageUrl %>" class="img-fluid rounded" alt="<%= book.title %>" style="max-width: 100%; height: auto;">
+                    </div>
+                <% } %>
+
+
+
+                <div class="mb-4">
+                    <h5 class="card-subtitle mb-2 text-muted">Auteur :</h5>
+                    <p class="card-text"><%= book.author %></p>
+                </div>
+                <div class="mb-4">
+                    <h5 class="card-subtitle mb-2 text-muted">Catégorie :</h5>
+                    <p class="card-text">
+                        <% if (book.category) { %>
+                            <%= book.category.name %>
+                        <% } else { %>
+                            Aucune catégorie
+                        <% } %>
+                    </p>
+                </div>
+                <div class="mb-4">
+                    <h5 class="card-subtitle mb-2 text-muted">Statut :</h5>
+                    <p class="card-text">
+                        <% if(book.status) { %>
+                            <span class="badge bg-success p-2">Disponible</span>
+                        <% } else { %>
+                            <span class="badge bg-secondary p-2">Non disponible</span>
+                        <% } %>
+                    </p>
+                </div>
+                <div class="mb-4">
+                    <h5 class="card-subtitle mb-2 text-muted">Ajouté le :</h5>
+                    <p class="card-text"><%= book.createdAt.toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) %></p>
+                </div>
+                <div class="mb-4">
+                    <h5 class="card-subtitle mb-2 text-muted">Modifié le :</h5>
+                    <p class="card-text"><%= book.updatedAt.toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }) %></p>
+                </div>
+            </div>
+            <div class="card-footer bg-light">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="/books/<%= book._id %>/edit/" class="btn btn-warning me-2">MODIFIER</a>
+                        <a href="/books/<%= book._id %>/delete" class="btn btn-danger me-2">SUPPRIMER</a>
+                    </div>
+                    <div>
+                        <a href="/books" class="btn btn-outline-secondary">RETOUR</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+

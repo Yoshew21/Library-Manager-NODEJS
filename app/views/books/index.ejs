@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <%- include('../partials/head', {title: 'Gestionnaire de bibliothèque | Library Manager'}); %>
+</head>
+<body>
+<div class="container">
+    <div class="px-4 py-5 my-5 text-center">
+        <h1 class="display-5 fw-bold">LIBRARY MANAGER</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Gérez votre bibliothèque !</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-10 mx-auto">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>VOS LIVRES</h2>
+                <div class="d-flex align-items-center">
+                    <form action="/books/filter" method="GET" class="me-2">
+                        <select class="form-select form-select-lg" id="categoryFilter" name="categoryId" onchange="this.form.submit()">
+                            <option value="">Toutes les catégories</option>
+                            <% categories.forEach(category => { %>
+                                <option value="<%= category._id %>" <%= selectedCategory === category._id.toString() ? 'selected' : '' %>>
+                                    <%= category.name %>
+                                </option>
+                            <% }) %>
+                        </select>
+                    </form>
+                    <a href="/categories" class="btn btn-info btn-lg me-2">VOIR LES CATÉGORIES</a>
+                    <a href="/books/new" class="btn btn-success btn-lg">AJOUTER UN LIVRE</a>
+                </div>
+            </div>
+            <% if(books.length > 0) { %>
+                <% for(const book of books) { %>
+                    <div class="card mb-4 shadow-sm bg-light">
+                        <div class="row g-0 p-1">
+                            <% if (book.imageUrl) { %>
+                                <div class="col-md-3 d-flex align-items-center justify-content-center">
+                                    <img src="<%= book.imageUrl %>" style="width: 100px;" class="img-fluid rounded-start" alt="Book Image">
+                                </div>
+                            <% } %>
+                            <div class="col-md-<%= book.imageUrl ? '9' : '12' %>">
+                                <div class="d-flex justify-content-between align-items-start h-100">
+                                    <div class="p-3">
+                                        <h5 class="card-title"><%= book.title %></h5>
+                                        <p class="card-text"><strong>Auteur : </strong><%= book.author %></p>
+                                        <p class="card-text">
+                                            <% if(book.status) { %>
+                                                <span class="badge bg-success p-2">Disponible</span>
+                                            <% } else { %>
+                                                <span class="badge bg-secondary p-2">Indisponible</span>
+                                            <% } %>
+                                        </p>
+                                        <div class="mt-3">
+                                            <p class="card-text">
+                                                <% if (book.category) { %>
+                                                    <strong>Catégorie : </strong><%= book.category.name %>
+                                                <% } else { %>
+                                                    Aucune catégorie
+                                                <% } %>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column gap-2 p-3">
+                                        <a href="/books/<%= book._id %>" class="btn btn-dark btn-sm">DÉTAILS</a>
+                                        <a href="/books/<%= book._id %>/edit" class="btn btn-warning btn-sm">MODIFIER</a>
+                                        <a href="/books/<%= book._id %>/delete" class="btn btn-danger btn-sm">SUPPRIMER</a>
+                                        <form action="/books/<%= book._id %>/changeStatus" method="POST" class="d-inline">
+                                            <button type="submit" class="btn btn-sm <%= book.status ? 'btn-secondary' : 'btn-success' %>">
+                                                <%= book.status ? 'MARQUER INDISPONIBLE' : 'MARQUER DISPONIBLE' %>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            <% } else { %>
+                <h3 class="text-center my-5">Il n'y a pas encore de livres dans la bibliothèque !</h3>
+            <% } %>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <%- include('../partials/head', {title: 'Categories Manager'}); %>
+</head>
+<body>
+<div class="container">
+    <div class="px-4 py-5 my-5 text-center">
+        <h1 class="display-5 fw-bold">CATEGORY MANAGER</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Gérez vos catégories !</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-10 mx-auto">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>VOS CATEGORIES</h2>
+                <div>
+                    <a href="/tasks" class="btn btn-info btn-lg me-2">VOIR LES LIVRES</a>
+                    <a href="/categories/new" class="btn btn-success btn-lg">NOUVELLE CATEGORIE</a>
+                </div>
+            </div>
+            <% if(categories.length > 0) { %>
+                <% for(const category of categories) { %>
+                    <div class="card mb-4 shadow-sm bg-light">
+                        <div class="row g-0">
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= category.name %></h5>
+                                    <p><%= category.description %></p>
+                                    <p><strong>Nombre de livres dans cette catégorie : </strong><%= category.booksCount %></p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-center justify-content-end pe-4 py-3 gap-2">
+                                <div class="d-grid gap-2">
+                                    <a href="/categories/<%= category._id %>" class="btn btn-dark btn-lg">DÉTAILS</a>
+                                    <a href="/categories/<%= category._id %>/edit" class="btn btn-warning btn-lg">MODIFIER</a>
+                                    <a href="/categories/<%= category._id %>/delete" class="btn btn-danger btn-lg">SUPPRIMER</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            <% } else { %>
+                <h3 class="text-center my-5">Il n'y a pas encore de catégories !</h3>
+            <% } %>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<form class="card-body p-4 p-lg-5 shadow-sm rounded-3 bg-light" method="post" action="<%= action %>">
+    <div class="form-floating mb-4">
+        <input
+                type="text"
+                class="form-control form-control-lg"
+                id="title"
+                name="title"
+                placeholder="Titre du livre"
+        <% if(book) { %> value="<%= book.title %>" <% } %>
+                required
+        >
+        <label for="title" class="text-muted">Titre du livre</label>
+    </div>
+    <div class="form-floating mb-4">
+        <input
+                type="text"
+                class="form-control form-control-lg"
+                id="author"
+                name="author"
+                placeholder="Auteur du livre"
+        <% if(book) { %> value="<%= book.author %>" <% } %>
+                required
+        >
+        <label for="author" class="text-muted">Auteur du livre</label>
+    </div>
+    <div class="form-check form-switch mb-4 d-flex align-items-center">
+        <input
+                class="form-check-input me-3"
+                type="checkbox"
+                id="status"
+                name="status"
+                value="true"
+                <%= (book && book.status) ? 'checked' : '' %>
+                style="transform: scale(1.5);"
+        >
+        <label class="form-check-label fs-5" for="status">Disponible</label>
+    </div>
+    <div class="mb-4">
+        <label for="category" class="form-label fs-5">Catégorie</label>
+        <select
+                class="form-select form-select-lg"
+                id="category"
+                name="category"
+                required
+        >
+            <% categories.forEach(category => { %>
+                <option value="<%= category._id %>" <%= (book && book.category && book.category._id.toString() === category._id.toString()) ? 'selected' : '' %>>
+                    <%= category.name %>
+                </option>
+            <% }) %>
+        </select>
+    </div>
+
+
+
+    <div class="form-floating mb-4">
+        <input
+                type="url"
+                class="form-control form-control-lg"
+                id="imageUrl"
+                name="imageUrl"
+                placeholder="URL de l'image"
+        <% if(book) { %> value="<%= book.imageUrl %>" <% } %>
+        >
+        <label for="imageUrl" class="text-muted">URL de l'image</label>
+    </div>
+
+
+
+
+    <div class="d-grid gap-3 d-md-flex justify-content-md-center mt-5">
+        <button type="submit" class="btn btn-success btn-lg px-5 py-2 fw-bold">
+            <%= submitLabel %>
+        </button>
+        <a href="/books" class="btn btn-outline-secondary btn-lg px-5 py-2 fw-bold">
+            RETOUR
+        </a>
+    </div>
+</form>
